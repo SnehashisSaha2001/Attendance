@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tracker</title>
+  <meta name="theme-color" content="#007bff"/>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f7f7f7;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 100%;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      font-size: 16px;
+    }
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      margin: 8px 0;
+      background: #007bff;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+    }
+    #statusBox {
+      margin-top: 20px;
+      font-size: 15px;
+      background: #e9f7ef;
+      padding: 12px;
+      border-left: 5px solid #2ecc71;
+    }
+    iframe {
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>📍 Tracker</h2>
+    <p style="color: red; font-size: 14px;">
+      ⚠️ For full functionality, please open in Chrome or Safari and allow location access.
+    </p>
+    <input type="text" id="empName" placeholder="Enter your name" />
+    <button class="btn" onclick="markAttendance('Check In')">✅ Check In</button>
+    <button class="btn" onclick="markAttendance('Check Out')">🚪 Check Out</button>
+    <div id="statusBox"></div>
+    <iframe id="map" width="100%" height="250" loading="lazy"></iframe>
+    <h3>🕓 History</h3>
+    <ul id="logList" style="padding-left: 20px;"></ul>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const ua = navigator.userAgent.toLowerCase();
+      const isInApp = ua.includes("whatsapp") || ua.includes("instagram") || ua.includes("fb");
+      if (isInApp) {
+        alert("📍 Please open this page in Chrome or Safari. In-app browsers may block location and data submission.");
+      }
+      const logs = JSON.parse(localStorage.getItem("attendanceLogs")) || [];
+      renderLogs(logs);
+    });
+
+    async function markAttendance(type) {
+      const name = document.getElementById("empName").value.trim();
+      if (!name) return alert("Please enter your name");
+
+      if (!navigator.geolocation) {
+        alert("Geolocation is not supported by your browser");
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        const lat = position.coords.latitude.toFixed(5);
+        const lon = position.coords.longitude.toFixed(5);
+        const time = new Date().toLocaleString();
+
+        document.getElementById("statusBox").innerHTML = `
+          ${type} successful!<br>
+          <strong>${name}</strong><br>
+          ${time}<br>
+          📍 ${lat}, ${lon}
+        `;
+        document.getElementById("map").src =
+          `https://maps.google.com/maps?q=${lat},${lon}&z=15&output=embed`;
+
+        const entry = { name, time, lat, lon, type };
+
+        const logs = JSON.parse(localStorage.getItem("attendanceLogs") || "[]");
+        logs.push(entry);
+        localStorage.setItem("attendanceLogs", JSON.stringify(logs));
+        renderLogs(logs);
+
+        try {
+          const res = await fetch('https://script.google.com/macros/s/AKfycbzFDnm4qfLld7zWy5RdY50k3w1ZXZNzETs4HKflDHhSkA00E48IVOaa3e9pW4h3BdUj/exec', {
+            method: 'POST',
+            body: JSON.stringify(entry),
+            headers: { 'Content-Type': 'application/json' }
+          });
+          const result = await res.text();
+          console.log("Submitted: ", result);
+        } catch (err) {
+          alert("❌ Failed to submit attendance online.");
+        }
+      }, (error) => {
+        if (error.code === error.PERMISSION_DENIED) {
+          alert("📍 Location permission denied.\n\nPlease:\n1. Open in Chrome/Safari\n2. Allow location access\n3. Make sure GPS is ON.");
+        } else {
+          alert("Location error: " + error.message);
+        }
+      }, {
+        enableHighAccuracy: true,
+        timeout: 10000
+      });
+    }
+
+    function renderLogs(logs) {
+      const logList = document.getElementById("logList");
+      logList.innerHTML = "";
+      logs.slice().reverse().forEach(log => {
+        logList.innerHTML += `<li>${log.time} — ${log.type} @ ${log.name}</li>`;
+      });
+    }
+  </script>
+</body>
+</html>

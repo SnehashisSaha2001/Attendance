@@ -1,17 +1,16 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Tracker App</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
-<!-- Leaflet CSS -->
-<link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet"/>
-<!-- Leaflet JS -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<!-- IMPORTANT: Removed Google Maps API script -->
-<style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tracker App</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- IMPORTANT: Removed Google Maps API script -->
+  <style>
     :root {
       --primary-color: #0e2a47;
       --accent-color: #00d4ff;
@@ -287,7 +286,6 @@
     #state .form-group select {
       background: #324a5f;
       color: #fff;
-      border: none;
     }
     #state button[type="submit"] {
       background: #28a745;
@@ -471,420 +469,470 @@
 </style>
 </head>
 <body>
-<div class="sidebar">
-<h2>🚀 Tracker</h2>
-<img alt="Profile Photo" class="profile-photo" id="sidebar-profile-photo" src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/b480eacc-40ca-4251-4c52-b6c5587b3aa7.png"/>
-<div class="profile-details">
-<p id="sidebar-employee-name">Employee Name</p>
-<p id="sidebar-employee-id">EMP-ID</p>
-</div>
-<button onclick="showSection('dashboard')">Dashboard</button>
-<button onclick="showSection('daily-activity')">Daily Activity</button>
-<button onclick="showSection('followups')">Follow Ups</button>
-<button onclick="showSection('profile')">User  Profile</button>
-<button id="employeeManagementBtn" onclick="showSection('employee-management')" style="display:none;">Employee Management</button>
-<button id="adminProfileBtn" onclick="showSection('admin-profile')" style="display:none;">Admin Profile</button>
-<button id="logoutBtn" onclick="confirmLogout()" style="display:none;">Logout</button>
-<button id="loginBtn" onclick="showSection('login')">Login</button>
-</div>
-<div class="main-content">
-<section class="active" id="login">
-<div class="card">
-<h2>Login</h2>
-<form id="login-form">
-<div class="form-group" id="employee-id-group">
-<label for="login-employee-id">Employee ID</label>
-<input class="form-control" id="login-employee-id" placeholder="Enter your Employee ID" required="" type="text"/>
-</div>
-<div class="form-group" id="admin-username-group" style="display: none;">
-<label for="login-admin-username">Admin Username</label>
-<input class="form-control" id="login-admin-username" placeholder="Enter Admin Username (e.g., ADM-YourName)" type="text"/>
-</div>
-<div class="form-group" id="password-group" style="display: none;">
-<label for="login-password">Password</label>
-<input class="form-control" id="login-password" placeholder="Enter your password" type="password"/>
-</div>
-<div class="form-group">
-<label for="login-role">Select Role</label>
-<select class="form-control" id="login-role" required="">
-<option value="">-- Select Role --</option>
-<option value="employee">Employee</option>
-<option value="admin">Admin</option>
-</select>
-</div>
-<button class="submit" type="submit">Login</button>
-</form>
-</div>
-</section>
-<section id="dashboard">
-<div class="card">
-<h2 id="dashboard-welcome-message">Dashboard</h2>
-<ul>
-<li><strong>Mark Attendance:</strong> Easily clock in and out with a single tap.</li>
-<li><strong>Daily Visit Records:</strong> Log your client or field visits.</li>
-<li><strong>Follow Ups:</strong> Manage daily follow-ups with reminders.</li>
-</ul>
-</div>
-</section>
-<section id="daily-activity">
-<div class="card">
-<h2>📅 DAILY ACTIVITY</h2>
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-<div>
-<label for="activity-date-filter">Date:</label>
-<input id="activity-date-filter" onchange="loadDailyActivity()" style="max-width: 150px;" type="date"/>
-</div>
-<div id="employee-filter-container" style="display:none;">
-<label for="activity-employee-filter">Employee:</label>
-<select id="activity-employee-filter" onchange="loadDailyActivity()" style="max-width: 150px;">
-<!-- Employee IDs will be loaded here for admin -->
-</select>
-</div>
-<div>
-<label for="activity-search">🔍 Search:</label>
-<input id="activity-search" onkeyup="loadDailyActivity()" placeholder="Employee name / EmployeeId" style="max-width: 150px;" type="text"/>
-</div>
-</div>
-<div class="employee-actions">
-<button id="checkInBtn" onclick="markCheckIn()">Check In</button>
-<button id="checkOutBtn" onclick="markCheckOut()">Check Out</button>
-<button onclick="exportToExcel('daily-activity')">Export All</button>
-<!-- Removed Toggle Map button as only Leaflet is used -->
-</div>
-<div id="location-tracking-status" style="margin: 10px 0; font-weight: bold;">
-            📍 Location Status: <span id="location-status-text">Inactive</span>
-</div>
-<div id="current-location" style="margin-bottom: 20px;">
-<div style="display: flex; gap: 20px;">
-<div style="flex: 1;">
-<strong>Address:</strong> <span id="current-address">Waiting for location...</span><br/>
-<strong>Latitude:</strong> <span id="latitude">N/A</span><br/>
-<strong>Longitude:</strong> <span id="longitude">N/A</span><br/>
-<strong>Accuracy:</strong> <span id="accuracy">N/A</span> meters
+  <div class="sidebar">
+    <h2>🚀 Tracker</h2>
+    <img id="sidebar-profile-photo" class="profile-photo" src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/b480eacc-40ca-4251-4c52-b6c5587b3aa7.png" alt="Profile Photo">
+    <div class="profile-details">
+      <p id="sidebar-employee-name">Employee Name</p>
+      <p id="sidebar-employee-id">EMP-ID</p>
+    </div>
+    <button onclick="showSection('dashboard')">Dashboard</button>
+    <button onclick="showSection('daily-activity')">Daily Activity</button>
+    <button onclick="showSection('followups')">Follow Ups</button>
+    <button onclick="showSection('profile')">User  Profile</button>
+    <button onclick="showSection('employee-management')" id="employeeManagementBtn" style="display:none;">Employee Management</button>
+    <button onclick="showSection('admin-profile')" id="adminProfileBtn" style="display:none;">Admin Profile</button>
+    <button onclick="confirmLogout()" id="logoutBtn" style="display:none;">Logout</button>
+    <button onclick="showSection('login')" id="loginBtn">Login</button>
+  </div>
+
+  <div class="main-content">
+    <section id="login" class="active">
+        <div class="card">
+            <h2>Login</h2>
+            <form id="login-form">
+                <div class="form-group" id="employee-id-group">
+                    <label for="login-employee-id">Employee ID</label>
+                    <input type="text" id="login-employee-id" class="form-control" placeholder="Enter your Employee ID" required>
                 </div>
-<div id="map-container" style="flex: 1; height: 200px; border: 1px solid #00d4ff;">
-<!-- Only Leaflet map is used now -->
-<div id="leaflet-map" style="height: 100%;"></div>
-</div>
-</div>
-</div>
-<h3>──────────────────── Merged Log Table ────────────────────</h3>
-<table>
-<thead>
-<tr>
-<th>Employee ID</th>
-<th>Name</th> <!-- NEW COLUMN -->
-<th>Type</th>
-<th>Date &amp; Time</th>
-<th>Location</th>
-<th>Latitude</th> <!-- New Column -->
-<th>Longitude</th> <!-- New Column -->
-<th>Map</th>
-<th>Details</th>
-</tr>
-</thead>
-<tbody id="daily-activity-table-body">
-<!-- Daily activity data will be loaded here -->
-</tbody>
-</table>
-</div>
-</section>
-<section id="followups">
-<div class="card">
-<h2>Follow Ups</h2>
-<div class="employee-actions">
-<button onclick="addFollowUpEntry()">Add Follow-Up</button>
-<button onclick="exportToExcel('followups')">Export to Excel</button>
-</div>
-<form id="followup-form">
-<input id="followup-subject" placeholder="Subject / Client Name" required="" type="text"/>
-<input id="followup-datetime" required="" type="datetime-local"/>
-<textarea id="followup-note" placeholder="Reminder Note"></textarea>
-<button class="submit" type="submit">Save Follow-Up</button>
-</form>
-<table style="margin-top:20px">
-<thead>
-<tr>
-<th id="followup-employee-id-header" style="display:none;">Employee ID</th>
-<th id="followup-employee-name-header" style="display:none;">Name</th> <!-- NEW COLUMN -->
-<th>Subject</th>
-<th>Date &amp; Time</th>
-<th>Note</th>
-<th>Actions</th>
-</tr>
-</thead>
-<tbody id="followup-table">
-<!-- Follow-up data will be loaded here from Local Storage -->
-</tbody>
-</table>
-</div>
-</section>
-<section id="state">
-<div class="card">
-<h2>State Management</h2>
-<form id="state-form">
-<div class="form-group">
-<label for="state-name">State Name</label>
-<input class="form-control" id="state-name" placeholder="Enter State Name" required="" type="text"/>
-</div>
-<button class="submit" type="submit">Add State</button>
-</form>
-<button class="submit" onclick="exportToExcel('state')" style="margin-top: 10px;">Export to Excel</button>
-<input class="form-control" id="search-state" onkeyup="searchState()" placeholder="Search State" style="margin-top: 20px;" type="text"/>
-<table>
-<thead>
-<tr>
-<th>State</th>
-<th>Actions</th>
-</tr>
-</thead>
-<tbody id="state-table">
-<!-- State data will be loaded here from Local Storage -->
-</tbody>
-</table>
-</div>
-</section>
-<section id="city">
-<div class="card">
-<h2>City Management</h2>
-<form id="city-form">
-<div class="form-group">
-<label for="state-select">Select State</label>
-<select class="form-control" id="state-select" required="">
-<option value="">-- Select State --</option>
-<!-- States will be loaded dynamically here -->
-</select>
-</div>
-<div class="form-group">
-<label for="city-name">City Name</label>
-<input class="form-control" id="city-name" placeholder="Enter City Name" required="" type="text"/>
-</div>
-<button class="submit" type="submit">Add City</button>
-</form>
-<button class="submit" onclick="exportToExcel('city')" style="margin-top: 10px;">Export to Excel</button>
-<input class="form-control" id="search-city" onkeyup="searchCity()" placeholder="Search City" style="margin-top: 20px;" type="text"/>
-<table style="margin-top:20px">
-<thead>
-<tr>
-<th>State</th>
-<th>City</th>
-<th>Actions</th>
-</tr>
-</thead>
-<tbody id="city-table">
-<!-- City data will be loaded here from Local Storage -->
-</tbody>
-</table>
-</div>
-</section>
-<section id="profile">
-<div class="card">
-<h2>User Profile</h2>
-<form id="profile-form">
-<div class="profile-photo-container">
-<img alt="Profile Photo Preview" id="profile-preview" src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/99a20669-ecb4-4325-a970-491b8dac39a9.png"/>
-<label for="upload-photo" style="cursor: pointer; display: block; margin-top: 10px;">Upload Photo</label>
-<input accept="image/*" id="upload-photo" style="display: none;" type="file"/>
-</div>
-<label for="profile-name">Name</label>
-<input id="profile-name" placeholder="Enter Your Name" type="text"/>
-<label for="profile-employee-id">Employee ID</label>
-<input id="profile-employee-id" placeholder="Enter your Employee ID" readonly="" type="text"/>
-<label for="profile-mobile-no">Mobile No</label>
-<input id="profile-mobile-no" placeholder="Enter your mobile no" type="text"/>
-<label for="profile-email-id">Email Id</label>
-<input id="profile-email-id" placeholder="Email" type="email"/>
-<label for="profile-password">Password</label>
-<div class="password-input-container">
-<input id="profile-password" placeholder="Password" type="password"/>
-<span class="toggle-password" onclick="togglePasswordVisibility()">👁</span> </div>
-<button class="signup-button" type="submit">Save Profile</button>
-</form>
-</div>
-</section>
-<section id="admin-profile">
-<div class="card">
-<h2>Admin Profile Details</h2>
-<div class="employee-actions">
-<button onclick="openAddAdminModal()">Add Admin</button> <!-- New button -->
-</div>
-<table style="margin-top:20px">
-<thead>
-<tr>
-<th>Employee ID</th>
-<th>Name</th>
-<th>Mobile No</th>
-<th>Email</th>
-<th>Actions</th>
-</tr>
-</thead>
-<tbody id="admin-details-table">
-<!-- Admin data will be loaded here -->
-</tbody>
-</table>
-</div>
-</section>
-<section id="employee-management">
-<div class="card">
-<h2>Employee Details</h2>
-<div class="employee-actions">
-<button onclick="openAddEmployeeModal()">Add Employee</button>
-<button class="submit" onclick="exportToExcel('employee-management')">Export to Excel</button>
-</div>
-<table style="margin-top:20px">
-<thead>
-<tr>
-<th>Employee ID</th>
-<th>Name</th>
-<th>Mobile No</th>
-<th>Email</th>
-<th>Actions</th>
-</tr>
-</thead>
-<tbody id="employee-details-table">
-<!-- Employee data will be loaded here -->
-</tbody>
-</table>
-</div>
-</section>
-</div>
-<!-- Log Visit Modal (New/Modified) -->
-<div class="modal" id="logVisitModal">
-<div class="modal-content">
-<h3>📝 Log Visit?</h3>
-<form id="log-visit-form">
-<input id="log-visit-checkin-id" type="hidden"/>
-<label for="log-visit-client">Client Name:</label>
-<input id="log-visit-client" placeholder="Client/Company Name" required="" type="text"/>
-<label for="log-visit-purpose">Visit Purpose:</label>
-<textarea id="log-visit-purpose" placeholder="Purpose / Notes" required=""></textarea>
-<label for="log-visit-location">Visit Location:</label>
-<input id="log-visit-location" placeholder="Visit Location" required="" type="text"/>
-<div style="display: flex; justify-content: center; margin-top: 20px;">
-<button class="submit" type="submit">✔️ Submit Visit</button>
-<button class="submit" onclick="skipVisit()" style="background-color: #f44336; margin-left: 10px;" type="button">Skip Visit</button>
-</div>
-</form>
-</div>
-</div>
-<!-- Custom Alert Modal -->
-<div class="modal" id="customAlertModal">
-<div class="modal-content">
-<p id="alertMessage"></p>
-<button onclick="closeAlert()">OK</button>
-</div>
-</div>
-<!-- Custom Confirm Modal -->
-<div class="modal" id="customConfirmModal">
-<div class="modal-content">
-<p id="confirmMessage"></p>
-<button id="confirmYes">Yes</button>
-<button id="confirmNo">No</button>
-</div>
-</div>
-<!-- Add Employee Modal -->
-<div class="modal" id="addEmployeeModal">
-<div class="modal-content">
-<span class="close-modal" onclick="closeAddEmployeeModal()">×</span>
-<h3>Add New Employee</h3>
-<form id="add-employee-form">
-<div class="form-group">
-<label for="new-employee-id">Employee ID (SCS-XXXXXX)</label>
-<input id="new-employee-id" pattern="SCS-\d{5,6}" placeholder="SCS-12345 or SCS-123456" required="" title="Format: SCS- followed by 5 or 6 digits" type="text"/>
-</div>
-<div class="form-group">
-<label for="new-employee-name">Full Name</label>
-<input id="new-employee-name" placeholder="John Doe" required="" type="text"/>
-</div>
-<div class="form-group">
-<label for="new-employee-mobile">Mobile No</label>
-<input id="new-employee-mobile" placeholder="9876543210" required="" type="tel"/>
-</div>
-<div class="form-group">
-<label for="new-employee-email">Email</label>
-<input id="new-employee-email" placeholder="john@example.com" required="" type="email"/>
-</div>
-<div class="form-group">
-<label for="new-employee-password">Password</label>
-<input id="new-employee-password" placeholder="Set password" required="" type="password"/>
-</div>
-<button class="submit" type="submit">Save Employee</button>
-</form>
-</div>
-</div>
-<!-- Add Admin Modal (New) -->
-<div class="modal" id="addAdminModal">
-<div class="modal-content">
-<span class="close-modal" onclick="closeAddAdminModal()">×</span>
-<h3>Add New Admin</h3>
-<form id="add-admin-form">
-<div class="form-group">
-<label for="new-admin-username">Admin Username (ADM-YourName)</label>
-<input id="new-admin-username" pattern="ADM-[A-Za-z\s]+" placeholder="ADM-JohnDoe" required="" title="Format: ADM- followed by letters and spaces" type="text"/>
-</div>
-<div class="form-group">
-<label for="new-admin-name">Full Name</label>
-<input id="new-admin-name" placeholder="John Doe" required="" type="text"/>
-</div>
-<div class="form-group">
-<label for="new-admin-mobile">Mobile No</label>
-<input id="new-admin-mobile" placeholder="9876543210" type="tel"/>
-</div>
-<div class="form-group">
-<label for="new-admin-email">Email</label>
-<input id="new-admin-email" placeholder="john@example.com" type="email"/>
-</div>
-<div class="form-group">
-<label for="new-admin-password">Password</label>
-<input id="new-admin-password" placeholder="Set password" required="" type="password"/>
-</div>
-<button class="submit" type="submit">Save Admin</button>
-</form>
-</div>
-</div>
+                <div class="form-group" id="admin-username-group" style="display: none;">
+                    <label for="login-admin-username">Admin Username</label>
+                    <input type="text" id="login-admin-username" class="form-control" placeholder="Enter Admin Username (e.g., ADM-YourName)">
+                </div>
+                <!-- Password field (visible for both roles, but required differently) -->
+                <div class="form-group" id="password-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" class="form-control" placeholder="Enter your password" required>
+                </div>
+                <!-- Mobile Number field (visible for both roles, but required differently) -->
+                <div class="form-group" id="employee-mobile-group">
+                    <label for="login-employee-mobile">Registered Mobile No.</label>
+                    <input type="tel" id="login-employee-mobile" class="form-control" placeholder="Enter your registered mobile number" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-role">Select Role</label>
+                    <select id="login-role" class="form-control" required>
+                        <option value="">-- Select Role --</option>
+                        <option value="employee">Employee</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                <button type="submit" class="submit">Login</button>
+            </form>
+        </div>
+    </section>
+
+    <section id="dashboard">
+      <div class="card">
+        <h2 id="dashboard-welcome-message">Dashboard</h2>
+        <ul>
+          <li><strong>Mark Attendance:</strong> Easily clock in and out with a single tap.</li>
+          <li><strong>Daily Visit Records:</strong> Log your client or field visits.</li>
+          <li><strong>Follow Ups:</strong> Manage daily follow-ups with reminders.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="daily-activity">
+      <div class="card">
+        <h2>📅 DAILY ACTIVITY</h2>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <div>
+                <label for="activity-date-filter">Date:</label>
+                <input type="date" id="activity-date-filter" style="max-width: 150px;" onchange="loadDailyActivity()">
+            </div>
+            <div id="employee-filter-container" style="display:none;">
+                <label for="activity-employee-filter">Employee:</label>
+                <select id="activity-employee-filter" style="max-width: 150px;" onchange="loadDailyActivity()">
+                    <!-- Employee IDs will be loaded here for admin -->
+                </select>
+            </div>
+            <div>
+                <label for="activity-search">🔍 Search:</label>
+                <input type="text" id="activity-search" placeholder="Employee name / EmployeeId" style="max-width: 150px;" onkeyup="loadDailyActivity()">
+            </div>
+        </div>
+
+        <div class="employee-actions">
+          <button onclick="markCheckIn()" id="checkInBtn">Check In</button>
+          <button onclick="markCheckOut()" id="checkOutBtn">Check Out</button>
+          <button onclick="exportToExcel('daily-activity')">Export All</button>
+          <!-- Removed Toggle Map button as only Leaflet is used -->
+        </div>
+
+        <div id="location-tracking-status" style="margin: 10px 0; font-weight: bold;">
+            📍 Location Status: <span id="location-status-text">Inactive</span>
+        </div>
+        <div id="current-location" style="margin-bottom: 20px;">
+            <div style="display: flex; justify-content: center; gap: 20px;">
+                <div style="flex: 1;">
+                    <strong>Address:</strong> <span id="current-address">Waiting for location...</span><br>
+                    <strong>Latitude:</strong> <span id="latitude">N/A</span><br>
+                    <strong>Longitude:</strong> <span id="longitude">N/A</span><br>
+                    <strong>Accuracy:</strong> <span id="accuracy">N/A</span> meters
+                </div>
+                <div id="map-container" style="flex: 1; height: 200px; border: 1px solid #00d4ff;">
+                    <!-- Only Leaflet map is used now -->
+                    <div id="leaflet-map" style="height: 100%;"></div>
+                </div>
+            </div>
+        </div>
+
+        <h3>──────────────────── Merged Log Table ────────────────────</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Employee ID</th>
+              <th>Name</th> <!-- NEW COLUMN -->
+              <th>Type</th>
+              <th>Date & Time</th>
+              <th>Location</th>
+              <th>Latitude</th> <!-- New Column -->
+              <th>Longitude</th> <!-- New Column -->
+              <th>Map</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody id="daily-activity-table-body">
+            <!-- Daily activity data will be loaded here -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="followups">
+      <div class="card">
+        <h2>Follow Ups</h2>
+        <div class="employee-actions">
+          <button onclick="addFollowUpEntry()">Add Follow-Up</button>
+          <button onclick="exportToExcel('followups')">Export to Excel</button>
+        </div>
+        <form id="followup-form">
+          <input type="text" id="followup-subject" placeholder="Subject / Client Name" required>
+          <input type="datetime-local" id="followup-datetime" required>
+          <textarea id="followup-note" placeholder="Reminder Note"></textarea>
+          <button type="submit" class="submit">Save Follow-Up</button>
+        </form>
+        <table style="margin-top:20px">
+          <thead>
+            <tr>
+              <th id="followup-employee-id-header" style="display:none;">Employee ID</th>
+              <th id="followup-employee-name-header" style="display:none;">Name</th> <!-- NEW COLUMN -->
+              <th>Subject</th>
+              <th>Date & Time</th>
+              <th>Note</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="followup-table">
+            <!-- Follow-up data will be loaded here from Local Storage -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="state">
+      <div class="card">
+        <h2>State Management</h2>
+        <form id="state-form">
+          <div class="form-group">
+            <label for="state-name">State Name</label>
+            <input type="text" id="state-name" placeholder="Enter State Name" required class="form-control">
+          </div>
+          <button type="submit" class="submit">Add State</button>
+        </form>
+        <button onclick="exportToExcel('state')" class="submit" style="margin-top: 10px;">Export to Excel</button>
+        <input type="text" id="search-state" placeholder="Search State" class="form-control" style="margin-top: 20px;" onkeyup="searchState()">
+        <table>
+          <thead>
+            <tr>
+              <th>State</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="state-table">
+            <!-- State data will be loaded here from Local Storage -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="city">
+      <div class="card">
+        <h2>City Management</h2>
+        <form id="city-form">
+          <div class="form-group">
+            <label for="state-select">Select State</label>
+            <select id="state-select" class="form-control" required>
+              <option value="">-- Select State --</option>
+              <!-- States will be loaded dynamically here -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="city-name">City Name</label>
+            <input type="text" id="city-name" class="form-control" placeholder="Enter City Name" required>
+          </div>
+          <button type="submit" class="submit">Add City</button>
+        </form>
+        <button onclick="exportToExcel('city')" class="submit" style="margin-top: 10px;">Export to Excel</button>
+        <input type="text" id="search-city" placeholder="Search City" class="form-control" style="margin-top: 20px;" onkeyup="searchCity()">
+        <table style="margin-top:20px">
+          <thead>
+            <tr>
+              <th>State</th>
+              <th>City</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="city-table">
+            <!-- City data will be loaded here from Local Storage -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="profile">
+      <div class="card">
+        <h2>User Profile</h2>
+        <form id="profile-form">
+          <div class="profile-photo-container">
+            <img id="profile-preview" src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/99a20669-ecb4-4325-a970-491b8dac39a9.png" alt="Profile Photo Preview">
+            <label for="upload-photo" style="cursor: pointer; display: block; margin-top: 10px;">Upload Photo</label>
+            <input type="file" id="upload-photo" accept="image/*" style="display: none;">
+          </div>
+
+          <label for="profile-name">Name</label>
+          <input type="text" id="profile-name" placeholder="Enter Your Name">
+
+          <label for="profile-employee-id">Employee ID</label>
+          <input type="text" id="profile-employee-id" placeholder="Enter your Employee ID" readonly>
+
+          <label for="profile-mobile-no">Mobile No</label>
+          <input type="text" id="profile-mobile-no" placeholder="Enter your mobile no">
+
+          <label for="profile-email-id">Email Id</label>
+          <input type="email" id="profile-email-id" placeholder="Email">
+
+          <label for="profile-password">Password</label>
+          <div class="password-input-container">
+            <input type="password" id="profile-password" placeholder="Password">
+            <span class="toggle-password" onclick="togglePasswordVisibility()">&#128065;</span> </div>
+
+          <button type="submit" class="signup-button">Save Profile</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="admin-profile">
+        <div class="card">
+            <h2>Admin Profile Details</h2>
+            <div class="employee-actions">
+                <button onclick="openAddAdminModal()">Add Admin</button> <!-- New button -->
+            </div>
+            <table style="margin-top:20px">
+                <thead>
+                    <tr>
+                        <th>Employee ID</th>
+                        <th>Name</th>
+                        <th>Mobile No</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="admin-details-table">
+                    <!-- Admin data will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section id="employee-management">
+        <div class="card">
+            <h2>Employee Details</h2>
+            <div class="employee-actions">
+                <button onclick="openAddEmployeeModal()">Add Employee</button>
+                <button onclick="exportToExcel('employee-management')" class="submit">Export to Excel</button>
+            </div>
+            <table style="margin-top:20px">
+                <thead>
+                    <tr>
+                        <th>Employee ID</th>
+                        <th>Name</th>
+                        <th>Mobile No</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="employee-details-table">
+                    <!-- Employee data will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+  </div>
+
+  <!-- Log Visit Modal (New/Modified) -->
+  <div id="logVisitModal" class="modal">
+    <div class="modal-content">
+      <h3>📝 Log Visit?</h3>
+      <form id="log-visit-form">
+        <input type="hidden" id="log-visit-checkin-id">
+        <label for="log-visit-client">Client Name:</label>
+        <input type="text" id="log-visit-client" placeholder="Client/Company Name" required>
+        <label for="log-visit-purpose">Visit Purpose:</label>
+        <textarea id="log-visit-purpose" placeholder="Purpose / Notes" required></textarea>
+        <label for="log-visit-location">Visit Location:</label>
+        <input type="text" id="log-visit-location" placeholder="Visit Location" required>
+        <div style="display: flex; justify-content: center; margin-top: 20px;">
+            <button type="submit" class="submit">✔️ Submit Visit</button>
+            <button type="button" class="submit" style="background-color: #f44336; margin-left: 10px;" onclick="skipVisit()">Skip Visit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Custom Alert Modal -->
+  <div id="customAlertModal" class="modal">
+    <div class="modal-content">
+      <p id="alertMessage"></p>
+      <button onclick="closeAlert()">OK</button>
+    </div>
+  </div>
+
+  <!-- Custom Confirm Modal -->
+  <div id="customConfirmModal" class="modal">
+    <div class="modal-content">
+      <p id="confirmMessage"></p>
+      <button id="confirmYes">Yes</button>
+      <button id="confirmNo">No</button>
+    </div>
+  </div>
+
+  <!-- Add Employee Modal -->
+  <div id="addEmployeeModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeAddEmployeeModal()">&times;</span>
+      <h3>Add New Employee</h3>
+      <form id="add-employee-form">
+        <div class="form-group">
+          <label for="new-employee-id">Employee ID (SCS-XXXXXX)</label>
+          <input type="text" id="new-employee-id" pattern="SCS-\d{5,6}" placeholder="SCS-12345 or SCS-123456" title="Format: SCS- followed by 5 or 6 digits" required>
+        </div>
+        <div class="form-group">
+          <label for="new-employee-name">Full Name</label>
+          <input type="text" id="new-employee-name" placeholder="John Doe" required>
+        </div>
+        <div class="form-group">
+          <label for="new-employee-mobile">Mobile No</label>
+          <input type="tel" id="new-employee-mobile" placeholder="9876543210" required>
+        </div>
+        <div class="form-group">
+          <label for="new-employee-email">Email</label>
+          <input type="email" id="new-employee-email" placeholder="john@example.com" required>
+        </div>
+        <div class="form-group">
+          <label for="new-employee-password">Password</label>
+          <input type="password" id="new-employee-password" placeholder="Set password" required>
+        </div>
+        <button type="submit" class="submit">Save Employee</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add Admin Modal (New) -->
+  <div id="addAdminModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeAddAdminModal()">&times;</span>
+      <h3>Add New Admin</h3>
+      <form id="add-admin-form">
+        <div class="form-group">
+          <label for="new-admin-username">Admin Username (ADM-YourName)</label>
+          <input type="text" id="new-admin-username" pattern="ADM-[A-Za-z\s]+" placeholder="ADM-JohnDoe" title="Format: ADM- followed by letters and spaces" required>
+        </div>
+        <div class="form-group">
+          <label for="new-admin-name">Full Name</label>
+          <input type="text" id="new-admin-name" placeholder="John Doe" required>
+        </div>
+        <div class="form-group">
+          <label for="new-admin-mobile">Mobile No</label>
+          <input type="tel" id="new-admin-mobile" placeholder="9876543210" required>
+        </div>
+        <div class="form-group">
+          <label for="new-admin-email">Email</label>
+          <input type="email" id="new-admin-email" placeholder="john@example.com">
+        </div>
+        <div class="form-group">
+          <label for="new-admin-password">Password</label>
+          <input type="password" id="new-admin-password" placeholder="Set password" required>
+        </div>
+        <button type="submit" class="submit">Save Admin</button>
+      </form>
+    </div>
+  </div>
+
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
 <script>
   // Global variables for user state
   let currentUserRole = null; // 'admin' or 'employee'
   let currentEmployeeId = null; // The ID of the logged-in employee
 
-  // Define allowed admin usernames and their common password
-  // IMPORTANT: In a real application, this data should be stored securely on a server.
-  const allowedAdminUsernames = [
-    "ADM-Snehashis",
-    "ADM-Shoaib",
-    "ADM-Komal",
-    "ADM-S.S Singh",
-    "ADM-Sandeep"
-  ];
-  const adminCommonPassword = "scube@1234"; // Common password for all admins
-
   // --- Pre-defined Employee Data ---
-  // This data will be loaded into localStorage if it doesn't already exist.
+  // IMPORTANT: Passwords are now unique for each entry.
+  // boundDeviceId is NOT set here, it will be set on first login from a device.
   const initialEmployeeData = [
-    { name: "Snehasish Paul", employeeId: "SCS-03318", mobileNo: "N/A", emailId: "N/A", password: "scube@4321", photoUrl: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/default-employee.png' },
-    { name: "Zuber Alam", employeeId: "SCS-01102", mobileNo: "N/A", emailId: "N/A", password: "scube@4321", photoUrl: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/default-employee.png' },
-    { name: "Bharath Kumar TM", employeeId: "SCS-08017", mobileNo: "N/A", emailId: "N/A", password: "scube@4321", photoUrl: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/default-employee.png' },
-    { name: "Shiva Kumarar", employeeId: "SCS-08016", mobileNo: "N/A", emailId: "N/A", password: "scube@4321", photoUrl: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/default-employee.png' },
-    { name: "Tapas Kumar Dinda", employeeId: "SCS-03317", mobileNo: "N/A", emailId: "N/A", password: "scube@4321", photoUrl: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/default-employee.png' },
-    { name: "Gopal Chandra Biswas", employeeId: "SCS-03313", mobileNo: "N/A", emailId: "N/A", password: "scube@4321", photoUrl: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/default-employee.png' },
-    { name: "Saugat Majumdar", employeeId: "SCS-03303", mobileNo: "N/A", emailId: "N/A", password: "scube@4321", photoUrl: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/default-employee.png' },
-    { name: "Chitrarath Senapati", employeeId: "SCS-03306", mobileNo: "N/A", emailId: "N/A", password: "scube@4321", photoUrl: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/default-employee.png' },
-    { name: "Sukhendu Shekhar Mondal", employeeId: "SCS-03316", mobileNo: "N/A", emailId: "N/A", password: "scube@4321", photoUrl: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/default-employee.png' },
-    { name: "Tarun Kumar Paramanik", employeeId: "SCS-03308", mobileNo: "N/A", emailId: "N/A", password: "scube@4321", photoUrl: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/default-employee.png' },
-    { name: "Kartik Ghanta", employeeId: "SCS-03309", mobileNo: "N/A", emailId: "N/A", password: "scube@4321", photoUrl: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/default-employee.png' },
-    { name: "Provat Naskar", employeeId: "SCS-03314", mobileNo: "N/A", emailId: "N/A", password: "scube@4321", photoUrl: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/default-employee.png' },
-    { name: "Ravi Kumari", employeeId: "SCS-01103", mobileNo: "N/A", emailId: "N/A", password: "scube@4321", photoUrl: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/default-employee.png' }
+    { name: "Snehasish Paul", employeeId: "SCS-03318", mobileNo: "8017892062", emailId: "N/A", password: "password1", photoUrl: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/default-employee.png' },
+    { name: "Zuber Alam", employeeId: "SCS-01102", mobileNo: "9891377424", emailId: "N/A", password: "password2", photoUrl: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/default-employee.png' },
+    { name: "Bharath Kumar TM", employeeId: "SCS-08017", mobileNo: "9844722312", emailId: "N/A", password: "password3", photoUrl: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/default-employee.png' },
+    { name: "Shiva Kumarar", employeeId: "SCS-08016", mobileNo: "9611452782", emailId: "N/A", password: "password4", photoUrl: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/default-employee.png' },
+    { name: "Tapas Kumar Dinda", employeeId: "SCS-03317", mobileNo: "9804443387", emailId: "N/A", password: "password5", photoUrl: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/default-employee.png' },
+    { name: "Gopal Chandra Biswas", employeeId: "SCS-03313", mobileNo: "9432095612", emailId: "N/A", password: "password6", photoUrl: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/default-employee.png' },
+    { name: "Saugat Majumdar", employeeId: "SCS-03303", mobileNo: "9831259094", emailId: "N/A", password: "password7", photoUrl: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/default-employee.png' },
+    { name: "Chitrarath Senapati", employeeId: "SCS-03306", mobileNo: "9831282190", emailId: "N/A", password: "password8", photoUrl: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/default-employee.png' },
+    { name: "Sukhendu Shekhar Mondal", employeeId: "SCS-03316", mobileNo: "7278942388", emailId: "N/A", password: "password9", photoUrl: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/default-employee.png' },
+    { name: "Tarun Kumar Paramanik", employeeId: "SCS-03308", mobileNo: "9831650969", emailId: "N/A", password: "password10", photoUrl: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/default-employee.png' },
+    { name: "Kartik Ghanta", employeeId: "SCS-03309", mobileNo: "7074099074", emailId: "N/A", password: "password11", photoUrl: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/default-employee.png' },
+    { name: "Provat Naskar", employeeId: "SCS-03314", mobileNo: "7044486602", emailId: "N/A", password: "password12", photoUrl: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/default-employee.png' },
+    { name: "Ravi Kumari", employeeId: "SCS-01103", mobileNo: "9548362042", emailId: "N/A", password: "password13", photoUrl: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/default-employee.png' },
+    { name: "Abhilash Sarangi", employeeId: "SCS-067403", mobileNo: "8763523636", emailId: "N/A", password: "password14", photoUrl: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/default-employee.png' },
+    { name: "Shubhadarshani Nath", employeeId: "SCS-067404", mobileNo: "8763523636", emailId: "N/A", password: "password15", photoUrl: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/default-employee.png' }
   ];
+
+  // --- Pre-defined Admin Data ---
+  // boundDeviceId is NOT set here, it will be set on first login from a device.
+  const initialAdminData = [
+    { name: "Snehashis", employeeId: "ADM-Snehashis", mobileNo: "9876543210", emailId: "snehashis@example.com", password: "adminpass1", photoUrl: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/default-employee.png' },
+    { name: "Shoaib", employeeId: "ADM-Shoaib", mobileNo: "9876543211", emailId: "shoaib@example.com", password: "adminpass2", photoUrl: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/default-employee.png' },
+    { name: "Komal", employeeId: "ADM-Komal", mobileNo: "9876543212", emailId: "komal@example.com", password: "adminpass3", photoUrl: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/default-employee.png' },
+    { name: "S.S Singh", employeeId: "ADM-S.S Singh", mobileNo: "9876543213", emailId: "sssingh@example.com", password: "adminpass4", photoUrl: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/default-employee.png' },
+    { name: "Sandeep", employeeId: "ADM-Sandeep", mobileNo: "9876543214", emailId: "sandeep@example.com", password: "adminpass5", photoUrl: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/default-employee.png' }
+  ];
+
 
   // Initial load - show login screen
   document.addEventListener('DOMContentLoaded', () => {
     // Pre-populate employee data if not already present in localStorage
     initialEmployeeData.forEach(emp => {
         if (!localStorage.getItem(`userProfile_${emp.employeeId}`)) {
-            saveUserProfile(emp); // Use the existing saveUserProfile function
-            console.log(`Pre-populated profile for: ${emp.employeeId}`);
+            // Ensure boundDeviceId is NOT set during initial pre-population
+            const empToSave = { ...emp };
+            delete empToSave.boundDeviceId;
+            saveUserProfile(empToSave);
+            console.log(`Pre-populated employee profile for: ${emp.employeeId}`);
+        }
+    });
+
+    // Pre-populate admin data if not already present in localStorage
+    initialAdminData.forEach(admin => {
+        if (!localStorage.getItem(`userProfile_${admin.employeeId}`)) {
+            // Ensure boundDeviceId is NOT set during initial pre-population
+            const adminToSave = { ...admin };
+            delete adminToSave.boundDeviceId;
+            saveUserProfile(adminToSave);
+            console.log(`Pre-populated admin profile for: ${admin.employeeId}`);
         }
     });
 
@@ -901,38 +949,52 @@
         const loginEmployeeIdInput = document.getElementById('login-employee-id');
         const adminUsernameGroup = document.getElementById('admin-username-group');
         const loginAdminUsernameInput = document.getElementById('login-admin-username');
+        const employeeMobileGroup = document.getElementById('employee-mobile-group');
+        const loginEmployeeMobileInput = document.getElementById('login-employee-mobile');
+
 
         if (this.value === 'admin') {
-            if (employeeIdGroup) employeeIdGroup.style.display = 'none';
+            employeeIdGroup.style.display = 'none';
             loginEmployeeIdInput.removeAttribute('required');
             loginEmployeeIdInput.value = '';
 
             adminUsernameGroup.style.display = 'block';
             loginAdminUsernameInput.setAttribute('required', 'required');
 
-            passwordGroup.style.display = 'block';
+            passwordGroup.style.display = 'block'; // Password always visible
             loginPasswordInput.setAttribute('required', 'required');
+
+            employeeMobileGroup.style.display = 'block'; // Mobile always visible for admin
+            loginEmployeeMobileInput.setAttribute('required', 'required');
+
         } else if (this.value === 'employee') {
-            if (employeeIdGroup) employeeIdGroup.style.display = 'block';
+            employeeIdGroup.style.display = 'block';
             loginEmployeeIdInput.setAttribute('required', 'required');
+            adminUsernameGroup.style.display = 'none';
             loginAdminUsernameInput.removeAttribute('required');
             loginAdminUsernameInput.value = '';
 
-            adminUsernameGroup.style.display = 'none';
-
-            passwordGroup.style.display = 'block';
+            passwordGroup.style.display = 'block'; // Password always visible
             loginPasswordInput.setAttribute('required', 'required');
+
+            employeeMobileGroup.style.display = 'block'; // Mobile always visible for employee
+            loginEmployeeMobileInput.setAttribute('required', 'required');
+
         } else { // Default or no role selected
-            if (employeeIdGroup) employeeIdGroup.style.display = 'block';
+            // Default to employee fields, but clear values and remove required for password/mobile
+            employeeIdGroup.style.display = 'block';
             loginEmployeeIdInput.setAttribute('required', 'required');
+            adminUsernameGroup.style.display = 'none';
             loginAdminUsernameInput.removeAttribute('required');
             loginAdminUsernameInput.value = '';
 
-            adminUsernameGroup.style.display = 'none';
-
-            passwordGroup.style.display = 'none';
-            loginPasswordInput.removeAttribute('required');
+            passwordGroup.style.display = 'block'; // Password always visible
+            loginPasswordInput.removeAttribute('required'); // Not required by default
             loginPasswordInput.value = '';
+
+            employeeMobileGroup.style.display = 'block'; // Mobile always visible
+            loginEmployeeMobileInput.removeAttribute('required'); // Not required by default
+            loginEmployeeMobileInput.value = '';
         }
     });
 
@@ -945,13 +1007,14 @@
       const adminUsernameInput = document.getElementById('login-admin-username').value.trim();
       const passwordInput = document.getElementById('login-password').value;
       const roleSelect = document.getElementById('login-role').value;
+      const employeeMobileInput = document.getElementById('login-employee-mobile').value.trim(); // Get mobile input
 
       if (!roleSelect) {
           showAlert('Please select a Role.');
           return;
       }
 
-      const loginData = { employeeIdInput, adminUsernameInput, passwordInput, roleSelect };
+      const loginData = { employeeIdInput, adminUsernameInput, passwordInput, roleSelect, employeeMobileInput };
 
       showConfirm('Are you sure you want to log in?', (confirmed) => {
           if (confirmed) {
@@ -963,106 +1026,140 @@
   });
 
   /**
-   * Checks if an employee ID is authorized to log in.
-   * An employee is authorized if a user profile exists for their ID in localStorage.
-   * This function acts as the central authorization check for employees.
-   * @param {string} employeeId The employee ID to check for authorization.
-   * @returns {boolean} True if the employee is authorized (profile exists), false otherwise.
+   * Generates or retrieves a unique device ID from localStorage.
+   * This ID is used for client-side device binding.
+   * @returns {string} A unique UUID for the current browser/device.
    */
-  function isEmployeeAuthorized(employeeId) {
-      // Employee IDs must start with 'SCS-'
-      if (!employeeId || (!employeeId.startsWith('SCS-') && !employeeId.startsWith('ADM-'))) { // Also check for ADM- for admins
-          return false;
+  function getDeviceId() {
+      let deviceId = localStorage.getItem('appDeviceId');
+      if (!deviceId) {
+          deviceId = crypto.randomUUID(); // Generates a UUID
+          localStorage.setItem('appDeviceId', deviceId);
       }
-      // Check if a user profile exists in localStorage for this employee ID
-      // The userProfile_ prefix is used when saving employee profiles.
-      return localStorage.getItem(`userProfile_${employeeId}`) !== null;
+      return deviceId;
+  }
+
+  /**
+   * Checks if a user ID (employee or admin) is authorized to log in.
+   * A user is authorized if a user profile exists for their ID in localStorage.
+   * This function acts as the central authorization check.
+   * @param {string} userId The user ID (employeeId or adminUsername) to check for authorization.
+   * @returns {boolean} True if the user is authorized (profile exists), false otherwise.
+   */
+  function isUserAuthorized(userId) {
+      // Check if a user profile exists in localStorage for this user ID
+      return localStorage.getItem(`userProfile_${userId}`) !== null;
   }
 
   function processLogin(loginData) {
-      const { employeeIdInput, adminUsernameInput, passwordInput, roleSelect } = loginData;
+      const { employeeIdInput, adminUsernameInput, passwordInput, roleSelect, employeeMobileInput } = loginData;
+      const currentDeviceId = getDeviceId(); // Get the device ID of the current browser
 
       if (roleSelect === 'employee') {
           if (!employeeIdInput) {
               showAlert('Please enter Employee ID.');
               return;
           }
-          // Basic format validation (SCS- prefix)
           if (!employeeIdInput.startsWith('SCS-')) {
               showAlert('Employee ID must start with "SCS-" (e.g., SCS-12345 or SCS-123456).');
               return;
           }
-
-          // --- CRITICAL NEW AUTHORIZATION CHECK ---
-          // Check if the employee ID is authorized (i.e., has a profile created by an admin or pre-loaded)
-          if (!isEmployeeAuthorized(employeeIdInput)) {
-              showAlert('Employee ID not authorized. Please check your ID or contact your administrator.');
+          if (!passwordInput) {
+              showAlert('Please enter your Password.');
               return;
           }
-          // --- END CRITICAL NEW AUTHORIZATION CHECK ---
+          if (!employeeMobileInput) {
+              showAlert('Please enter your Registered Mobile Number.');
+              return;
+          }
 
-          // Retrieve the stored profile to get the correct password for this specific employee
           const employeeProfile = getUserProfile(employeeIdInput);
 
-          // If for some reason the profile exists but is empty or doesn't have a password (shouldn't happen if created via admin panel)
-          if (!employeeProfile || !employeeProfile.password) {
-              showAlert('Employee profile data incomplete. Please contact your administrator.');
+          if (!employeeProfile) {
+              showAlert('Employee ID not found. Please check your ID.');
               return;
           }
 
-          // Compare the entered password with the password stored in the employee's profile
+          // 1. Password Verification
           if (passwordInput !== employeeProfile.password) {
-              showAlert('Incorrect password for Employee login.');
+              showAlert('Incorrect Password.');
               return;
+          }
+
+          // 2. Mobile Number Verification
+          if (employeeMobileInput !== employeeProfile.mobileNo) {
+              showAlert('Incorrect Registered Mobile Number.');
+              return;
+          }
+
+          // 3. Device Binding and Anomaly Detection
+          if (!employeeProfile.boundDeviceId) {
+              // First login for this employee, bind the current device
+              employeeProfile.boundDeviceId = currentDeviceId;
+              saveUserProfile(employeeProfile); // Save the updated profile with the new boundDeviceId
+              showAlert(`Employee ${employeeIdInput} login successful! This device is now bound to your profile.`);
+          } else if (employeeProfile.boundDeviceId !== currentDeviceId) {
+              // Device mismatch detected! This is the client-side "hint for the boss".
+              showAlert(`WARNING: Login for Employee ${employeeIdInput} from an UNRECOGNIZED DEVICE!`);
+              console.warn(`ANOMALY DETECTED: Employee ${employeeIdInput} logged in from a new device. Current Device ID: ${currentDeviceId}, Stored Device ID: ${employeeProfile.boundDeviceId}`);
+              // For a real system, this would trigger a server-side alert to the boss.
+              // You might also consider re-binding the device here, or forcing a stronger challenge.
+              // For this demo, we allow login but show the warning.
           }
 
           currentUserRole = 'employee';
           currentEmployeeId = employeeIdInput;
-          showAlert(`Employee ${employeeIdInput} login successful!`);
-          login();
+          login(); // Proceed with login after all checks and warnings
 
       } else if (roleSelect === 'admin') {
           if (!adminUsernameInput) {
               showAlert('Please enter Admin Username.');
               return;
           }
-
-          let adminProfile = getUserProfile(adminUsernameInput);
-          let isPredefinedAdmin = allowedAdminUsernames.includes(adminUsernameInput);
-
-          if (!isPredefinedAdmin && Object.keys(adminProfile).length === 0) {
-              showAlert('Admin Username not found. Please check your username or add it via the "Add Admin" feature if you are an existing admin.');
+          if (!isUserAuthorized(adminUsernameInput)) {
+              showAlert('Admin Username not authorized. Please check your username or add it via the "Add Admin" feature if you are an existing admin.');
+              return;
+          }
+          if (!passwordInput) {
+              showAlert('Please enter your Password.');
+              return;
+          }
+          if (!employeeMobileInput) { // Use employeeMobileInput for admin's mobile number
+              showAlert('Please enter your Registered Mobile Number.');
               return;
           }
 
-          // For predefined admins, check against the common password
-          if (isPredefinedAdmin) {
-              if (passwordInput !== adminCommonPassword) {
-                  showAlert('Incorrect password for Admin login.');
-                  return;
-              }
-              // Ensure a profile exists for predefined admins upon first login
-              if (Object.keys(adminProfile).length === 0) {
-                  adminProfile = {
-                      employeeId: adminUsernameInput,
-                      name: adminUsernameInput.replace('ADM-', ''),
-                      mobileNo: 'N/A',
-                      emailId: 'N/A',
-                      password: adminCommonPassword
-                  };
-                  saveUserProfile(adminProfile);
-              }
-          } else {
-              // For dynamically added admins, check against their specific password
-              if (passwordInput !== adminProfile.password) {
-                  showAlert('Incorrect password for Admin login.');
-                  return;
-              }
+          const adminProfile = getUserProfile(adminUsernameInput);
+
+          if (!adminProfile || !adminProfile.password) {
+              showAlert('Admin profile data incomplete. Please contact your administrator.');
+              return;
           }
 
-          currentEmployeeId = adminUsernameInput;
+          // 1. Password Verification
+          if (passwordInput !== adminProfile.password) {
+              showAlert('Incorrect password for Admin login.');
+              return;
+          }
+
+          // 2. Mobile Number Verification for Admin
+          if (employeeMobileInput !== adminProfile.mobileNo) {
+              showAlert('Incorrect Registered Mobile Number for Admin.');
+              return;
+          }
+
+          // 3. Device Binding and Anomaly Detection for Admin
+          if (!adminProfile.boundDeviceId) {
+              adminProfile.boundDeviceId = currentDeviceId;
+              saveUserProfile(adminProfile);
+              showAlert(`Admin ${adminUsernameInput} login successful! This device is now bound to your profile.`);
+          } else if (adminProfile.boundDeviceId !== currentDeviceId) {
+              showAlert(`WARNING: Login for Admin ${adminUsernameInput} from an UNRECOGNIZED DEVICE!`);
+              console.warn(`ANOMALY DETECTED: Admin ${adminUsernameInput} logged in from a new device. Current Device ID: ${currentDeviceId}, Stored Device ID: ${adminProfile.boundDeviceId}`);
+          }
+
           currentUserRole = 'admin';
-          showAlert(`Admin ${adminUsernameInput} login successful!`);
+          currentEmployeeId = adminUsernameInput;
           login();
       }
   }
@@ -2326,7 +2423,7 @@
     document.getElementById('profile-mobile-no').value = profile.mobileNo || '';
     document.getElementById('profile-email-id').value = profile.emailId || '';
     document.getElementById('profile-password').value = profile.password || '';
-    document.getElementById('profile-preview').src = profile.photoUrl || 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/99a20669-ecb4-4325-a970-491b8dac39a9.png';
+    document.getElementById('profile-preview').src = profile.photoUrl || 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/99a20669-ecb4-4325-491b8dac39a9.png';
 
     updateSidebarProfile(profile.name, currentEmployeeId, profile.photoUrl);
   }
@@ -2346,20 +2443,20 @@
     const photoFile = document.getElementById('upload-photo').files[0];
 
     let currentProfile = getUserProfile(employeeId);
-    let photoUrl = currentProfile.photoUrl || 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/99a20669-ecb4-4325-a970-491b8dac39a9.png';
+    let photoUrl = currentProfile.photoUrl || 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/99a20669-ecb4-4325-491b8dac39a9.png';
 
     if (photoFile) {
       const reader = new FileReader();
       reader.onload = (event) => {
         photoUrl = event.target.result;
-        const updatedProfile = { employeeId, name, mobileNo, emailId, password, photoUrl };
+        const updatedProfile = { ...currentProfile, name, mobileNo, emailId, password, photoUrl }; // Merge with existing profile to keep boundDeviceId
         saveUserProfile(updatedProfile);
         showAlert('Profile saved successfully!');
         updateSidebarProfile(name, employeeId, photoUrl);
       };
       reader.readAsDataURL(photoFile);
     } else {
-      const updatedProfile = { employeeId, name, mobileNo, emailId, password, photoUrl };
+      const updatedProfile = { ...currentProfile, name, mobileNo, emailId, password, photoUrl }; // Merge with existing profile to keep boundDeviceId
       saveUserProfile(updatedProfile);
       showAlert('Profile saved successfully!');
       updateSidebarProfile(name, employeeId, photoUrl);
@@ -2479,6 +2576,13 @@
                   saveUserProfile(profile);
                   showAlert('Admin email updated.');
               }
+              // Allow password change for admins
+              const newPassword = prompt(`Edit password for Admin (${employeeId}):`, profile.password);
+              if (newPassword !== null && newPassword.trim() !== '') {
+                  profile.password = newPassword.trim();
+                  saveUserProfile(profile);
+                  showAlert('Admin password updated.');
+              }
               loadAdminDetails();
           } else {
               const newName = prompt(`Edit name for ${employeeId}:`, profile.name);
@@ -2500,6 +2604,13 @@
                   profile.emailId = newEmail.trim();
                   saveUserProfile(profile);
                   showAlert('Employee email updated.');
+              }
+              // Allow password change for employees
+              const newPassword = prompt(`Edit password for ${employeeId}:`, profile.password);
+              if (newPassword !== null && newPassword.trim() !== '') {
+                  profile.password = newPassword.trim();
+                  saveUserProfile(profile);
+                  showAlert('Employee password updated.');
               }
               loadEmployeeDetails();
           }
@@ -2535,6 +2646,11 @@
       showAlert('Employee ID must be in format SCS- followed by 5 or 6 digits (e.g., SCS-12345 or SCS-123456).');
       return;
     }
+    // Ensure mobile number is provided
+    if (!mobile) {
+        showAlert('Mobile Number is required for new employees.');
+        return;
+    }
 
     const newProfile = {
       employeeId: id,
@@ -2543,6 +2659,7 @@
       emailId: email,
       password: password,
       photoUrl: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/default-employee.png'
+      // boundDeviceId will be set on first login
     };
 
     if (localStorage.getItem(`userProfile_${id}`)) {
@@ -2585,10 +2702,9 @@
       showAlert('Admin Username must be in format ADM- followed by letters and spaces (e.g., ADM-JohnDoe).');
       return;
     }
-
-    // Check if the username is already in the allowedAdminUsernames array
-    if (allowedAdminUsernames.includes(username)) {
-        showAlert('This Admin Username is already pre-defined in the system.');
+    // Ensure mobile number is provided
+    if (!mobile) {
+        showAlert('Mobile Number is required for new admins.');
         return;
     }
 
@@ -2605,6 +2721,7 @@
       emailId: email,
       password: password,
       photoUrl: 'https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/default-employee.png' // Default photo for new admins
+      // boundDeviceId will be set on first login
     };
 
     saveUserProfile(newAdminProfile);
@@ -2621,12 +2738,6 @@
       }
       if (employeeId === currentEmployeeId) {
           showAlert('You cannot delete the currently logged-in Admin profile from this interface.');
-          return;
-      }
-      // Allow deletion of dynamically added admins (those not in the hardcoded list)
-      // For hardcoded admins, prevent deletion from this UI
-      if (employeeId.startsWith('ADM-') && allowedAdminUsernames.includes(employeeId)) {
-          showAlert('Pre-defined Admin profiles cannot be deleted from this section. They are hardcoded.');
           return;
       }
 
@@ -2657,45 +2768,6 @@
   }
 </script>
 
-<script>
-  const employeeData = {
-    "SCS-03318": { empNumber: "8017892062", adminName: "Shanti Saran Singh", adminNumber: "9831038262" },
-    "SCS-01102": { empNumber: "9891377424", adminName: "Sandeep Sarkar", adminNumber: "9831036858" },
-    "SCS-08017": { empNumber: "9844722312", adminName: "Snehashis Saha", adminNumber: "9330199588" },
-    "SCS-08016": { empNumber: "9611452782", adminName: "Komal Gupta", adminNumber: "7003045682" },
-    "SCS-03317": { empNumber: "9804443387", adminName: "MD Shoaib Raza", adminNumber: "9831259095" },
-    "SCS-03313": { empNumber: "9432095612", adminName: "", adminNumber: "" },
-    "SCS-03303": { empNumber: "9831259094", adminName: "", adminNumber: "" },
-    "SCS-03306": { empNumber: "9831282190", adminName: "", adminNumber: "" },
-    "SCS-03316": { empNumber: "7278942388", adminName: "", adminNumber: "" },
-    "SCS-03308": { empNumber: "9831650969", adminName: "", adminNumber: "" },
-    "SCS-03309": { empNumber: "7074099074", adminName: "", adminNumber: "" },
-    "SCS-03314": { empNumber: "7044486602", adminName: "", adminNumber: "" },
-    "SCS-01103": { empNumber: "9548362042", adminName: "", adminNumber: "" },
-    "SCS-067403": { empNumber: "8763523636", adminName: "", adminNumber: "" },
-    "SCS-067404": { empNumber: "7978143152", adminName: "", adminNumber: "" }
-  };
 
-  function storeEmployeeData(empId) {
-    const user = employeeData[empId];
-    if (user) {
-      localStorage.setItem("employeeNumber", user.empNumber);
-      localStorage.setItem("adminName", user.adminName);
-      localStorage.setItem("adminNumber", user.adminNumber);
-    }
-  }
-
-  document.addEventListener("DOMContentLoaded", function () {
-    const loginForm = document.getElementById("loginForm");
-    if (loginForm) {
-      loginForm.addEventListener("submit", function () {
-        const empIdField = document.getElementById("employeeId");
-        if (empIdField) {
-          storeEmployeeData(empIdField.value.trim());
-        }
-      });
-    }
-  });
-</script>
 </body>
 </html>
